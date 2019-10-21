@@ -1,0 +1,38 @@
+.login{
+    height: 100vh;
+    width: 100wh;
+    background-image: url('./../../assets/images/bg.jpg');
+    background-size: 100% 100%;
+    .login-header{
+        height: 80px;
+        display: flex;
+        align-items: center;
+        background-color: rgba(21, 20, 13, 0.5);
+        img{
+            height: 40px;
+            width: 40px;
+            margin: 0 25px 0 50px;
+        }
+        h1{
+            font-size: 30px;
+            color: white;;
+        }
+    }
+    .login-content{
+        height: 300px;
+        width: 400px;
+        background-color:rgba(244, 244, 244, 0.5);
+        margin: 100px auto;
+        padding: 25px 40px;
+        h2{
+            font-size: 30px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .login-form{
+            .login-button{
+                width: 100%;
+            }
+        }
+    }
+}

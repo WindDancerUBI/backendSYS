@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-20 08:42:04
+ * @LastEditTime: 2019-10-20 09:13:34
+ * @LastEditors: Please set LastEditors
+ */
+import React, { Component } from 'react'
+// import { Button, Input } from "antd";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
+import Login from './pages/login';
+import Admin from './pages/admin';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+    render() {
+        return (
+            <div>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path='/login' component={Login}/>
+                        <Route path='/' component={Admin}/>   
+                    </Switch>
+                </BrowserRouter>
+            </div>
+        )
+    }
 }
 
-export default App;
+export default App
