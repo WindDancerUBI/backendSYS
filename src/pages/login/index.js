@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-20 08:42:44
- * @LastEditTime: 2019-10-21 22:17:50
+ * @LastEditTime: 2019-10-22 16:02:20
  * @LastEditors: Please set LastEditors
  */
 import React, { Component } from 'react'
 import logo from "./../../assets/images/logo.png";
-import { Form, Input, Icon, Button, message } from "antd";
+import { Form, Input, Icon, Button } from "antd";
 import { observer,inject } from "mobx-react";
 import "./index.scss"
 
@@ -15,20 +15,32 @@ import "./index.scss"
 @observer
 @inject('userStore')
 class Login extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            loginError: null,
+        }
+    }
 
     // 登陆表单提交处理
     submitHandle = (event) => {
         event.preventDefault();
 
         // 对所有表单字段进行检验
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async(err, values) => {
             // 检验成功
             if (!err) {
                 // 请求登陆
-                console.log(values);
-                this.props.userStore.login(values,this.props.history);
+                await this.props.userStore.login(values,this.props.history);
+                setTimeout(() => {
+                    this.setState({
+                        loginError: this.props.userStore.loginError
+                    })
+                }, 500); 
             } else {
-                message.error('检验失败!')
+                this.setState({
+                    loginError: '信息填写不完全'
+                })
             }
         });
     }
@@ -45,8 +57,8 @@ class Login extends Component {
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form
-
+        const { getFieldDecorator } = this.props.form;
+        const { loginError } = this.state;
         return (
             <div className="login">
                 <div className="login-header">
@@ -55,6 +67,7 @@ class Login extends Component {
                 </div>
                 <div className="login-content">
                     <h2>用户登录</h2>
+                    { !loginError?<p className="errMsg"></p>:<p className="errMsg">{loginError}</p>}
                     <Form className="login-form" onSubmit={this.submitHandle}>
                         <Form.Item>
                             {

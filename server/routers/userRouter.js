@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-21 20:29:52
- * @LastEditTime: 2019-10-21 21:07:16
+ * @LastEditTime: 2019-10-22 10:38:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/server/routers/userRouter.js
@@ -9,6 +9,7 @@
 const express = require('express');
 const Router = express.Router();
 const UserModel = require('../models/users');
+const jwt = require('jsonwebtoken');
 
 Router.get('/add',(req,res) => {
     UserModel.create({username:'test',password:1234},(err,doc)=>{
@@ -18,18 +19,25 @@ Router.get('/add',(req,res) => {
     })
 })
 
+// 用户登录接口
 Router.post('/login',(req,res) => {
     const {username,password} = req.body;
     UserModel.findOne({username,password},(err,doc) => {
-        console.log(username);
-        console.log(password);
         if(err){
-            return res.json({code:1,msg:'服务器维护中'});
+            return res.json({code:1,msg:'服务器打盹中，请稍后再试'});
         }
         if(!doc){
             return res.json({code:1,msg:'用户名或密码不存在'});
         }
-        return res.json({code:0,data:doc,msg:'login success'});
+        // 要生成token的主题信息
+        let content ={username:req.body.username}; 
+        // 这是加密的key（密钥）
+        let secretOrPrivateKey="jwt";
+        // 根据参数生成token值
+        let token = jwt.sign(content, secretOrPrivateKey, {
+            expiresIn: 60*60*4 // 1小时过期
+        });
+        return res.json({code:0,data:doc,token:token,msg:'登录成功'});
     })
 })
 
