@@ -1,23 +1,26 @@
+/*
+ * @Author: your name
+ * @Date: 2019-10-20 08:42:54
+ * @LastEditTime: 2019-10-21 22:35:43
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /backendSYS/src/pages/admin/index.js
+ */
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { observer, inject } from "mobx-react";
 
+@observer
+@inject('userStore')
 class Admin extends Component {
-    constructor(props) {
-        super(props)
-
-    }
 
     render() {
+        const userStore = this.props.userStore.username || sessionStorage.getItem('username');
         return (
             <div>
-                Admin
+                Admin,{userStore}
             </div>
         )
     }
-}
-
-Admin.propTypes = {
-
 }
 
 export default Admin

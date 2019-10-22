@@ -2,16 +2,18 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-20 08:42:44
- * @LastEditTime: 2019-10-21 15:57:46
+ * @LastEditTime: 2019-10-21 22:17:50
  * @LastEditors: Please set LastEditors
  */
 import React, { Component } from 'react'
 import logo from "./../../assets/images/logo.png";
-import { Form, Input, Icon, Button } from "antd";
+import { Form, Input, Icon, Button, message } from "antd";
+import { observer,inject } from "mobx-react";
 import "./index.scss"
-// import PropTypes from 'prop-types'
 
 @Form.create()
+@observer
+@inject('userStore')
 class Login extends Component {
 
     // 登陆表单提交处理
@@ -19,13 +21,14 @@ class Login extends Component {
         event.preventDefault();
 
         // 对所有表单字段进行检验
-        this.props.form.validateFields(async (err, values) => {
+        this.props.form.validateFields((err, values) => {
             // 检验成功
             if (!err) {
                 // 请求登陆
                 console.log(values);
+                this.props.userStore.login(values,this.props.history);
             } else {
-                console.log('检验失败!')
+                message.error('检验失败!')
             }
         });
     }
@@ -84,9 +87,5 @@ class Login extends Component {
         )
     }
 }
-
-// Login.propTypes = {
-
-// }
 
 export default Login
