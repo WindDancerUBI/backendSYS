@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-23 10:18:26
- * @LastEditTime: 2019-10-24 10:38:18
+ * @LastEditTime: 2019-10-26 11:14:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/components/LeftNav/index.js
@@ -26,20 +26,25 @@ class LeftNav extends Component {
     }
     
 
-    componentDidMount(){
+    componentWillMount(){
         const leftMenu = this.getLeftMenu(MenuList);
-        this.setState(
-            {leftMenu}
-        )
+        this.setState({
+            leftMenu,
+            openKeys: [this.defaultOpenKeys]
+        })
     }
 
     // 获取左侧导航栏中的内容
     getLeftMenu(menuList){
         return menuList.map(item => {
             if(item.children){
+                const cItem = item.children.find(cItem => this.props.location.pathname.indexOf(cItem.key)===0)
+                if(cItem){
+                    this.defaultOpenKeys = item.key;
+                }
                 return(
                     <Menu.SubMenu 
-                        key = {item.key}
+                        key={item.key}
                         title={<span><Icon type={item.icon} /><span>{item.title}</span></span>}
                     >
                         {this.getLeftMenu(item.children)}
@@ -64,14 +69,12 @@ class LeftNav extends Component {
         this.setState({
             openKeys: latestOpenKey ? [latestOpenKey] : [],
           });
-        // console.log(latestOpenKey);
     }
 
 
     render() {
         const { leftMenu,openKeys } = this.state;
         const pathname = this.props.location.pathname === '/'?'/home':this.props.location.pathname;
-
         return (
             <div className='leftnav'>
                 <Link to='/home'>
@@ -84,7 +87,7 @@ class LeftNav extends Component {
                     mode="inline"
                     theme="dark"
                     openKeys={openKeys}
-                    selectedKeys={pathname}
+                    selectedKeys={[pathname]}
                     onOpenChange={this.openChangeHandle}
                 >
                     {leftMenu}

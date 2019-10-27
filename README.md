@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-19 22:24:35
- * @LastEditTime: 2019-10-25 09:43:01
+ * @LastEditTime: 2019-10-27 09:19:36
  * @LastEditors: Please set LastEditors
  -->
 # backendSYS
@@ -33,3 +33,8 @@ React + Node后台管理系统
 - V1.3 登陆界面的完善
     - token值的生成
     - 登录状态的验证和保存（localStorage）
+
+- V1.4 页面框架的搭建
+    - 头部组件的实现（包含注销登录）
+    - 左侧导航栏组件的实现
+    - 页面路由跳转的实现

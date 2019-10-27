@@ -1,21 +1,20 @@
 /*
  * @Author: your name
  * @Date: 2019-10-20 08:42:54
- * @LastEditTime: 2019-10-24 10:54:44
+ * @LastEditTime: 2019-10-26 10:28:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/pages/admin/index.js
  */
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react";
-import { Redirect,BrowserRouter,Switch,Route } from "react-router-dom";
+import { Redirect,Switch,Route } from "react-router-dom";
 import { Layout } from "antd";
 import LeftNav from '../../components/LeftNav';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import './index.scss'
 import menuList from './../../config/menuConfig';
-import Home from '../home';
 
 @observer
 @inject('userStore')
@@ -25,7 +24,7 @@ class Admin extends Component {
         this.RouteList = []
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getRouteList(menuList);
     }
 
@@ -45,13 +44,6 @@ class Admin extends Component {
             return <Redirect to = '/login' />
         }
 
-        console.log(this.RouteList);
-        const ggg = this.RouteList.map(item => {
-            return <Route path={item.key} component={item.component} /> 
-        })
-
-        console.log(ggg)
-        
         return (
             <div>
                 <Layout className='admin'>
@@ -66,7 +58,6 @@ class Admin extends Component {
                             
                             <Switch>
                                 <Redirect exact from='/' to='/home' />
-                                <Route path='/home' component={Home} />
                                 {this.RouteList.map(item => 
                                     <Route path={item.key} component={item.component} />  
                                 )}
