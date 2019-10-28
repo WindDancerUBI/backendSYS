@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-21 19:51:39
- * @LastEditTime: 2019-10-21 21:04:42
+ * @LastEditTime: 2019-10-27 12:03:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/server/server.js
@@ -9,6 +9,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRouter = require('./routers/userRouter')
+const categoryRouter = require('./routers/categoryRouter')
 
 // 产生应用对象
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({extended:true}));
 // 请求体参数是json结构
 app.use(express.json())
 app.use('/user',userRouter)
+app.use('/category',categoryRouter)
 
 app.get('/',(req,res) => {
     res.send('<h1>这是后台管理系统的后端入口</h1>');

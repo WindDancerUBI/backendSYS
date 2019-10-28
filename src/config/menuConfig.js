@@ -1,15 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2019-10-23 10:46:35
- * @LastEditTime: 2019-10-26 10:33:37
+ * @LastEditTime: 2019-10-27 12:47:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/config/menuConfig.js
  */
 
 import Home from "./../pages/home/index";
-import ProductCategory from "./../pages/product/category";
-import ProductManage from "./../pages/product/manage";
+import ProductCategory from "./../pages/product/category/category";
+import ProductManage from "./../pages/product/manage/manage";
 import User from "./../pages/user/index";
 import Role from "./../pages/role/index";
 import Bar from "./../pages/chart/bar";
