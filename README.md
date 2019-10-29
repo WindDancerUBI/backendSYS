@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-10-19 22:24:35
- * @LastEditTime: 2019-10-28 09:34:56
+ * @LastEditTime: 2019-10-29 10:09:56
  * @LastEditors: Please set LastEditors
  -->
 # backendSYS
@@ -43,3 +43,6 @@ React + Node后台管理系统
     - 一级父类和二级子类的实现
     - 分类列表的请求
     - 商品分类的添加
+
+- V2.2 token验证的后端实现
+    - 验证token值是否过期

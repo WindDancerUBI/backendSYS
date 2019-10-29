@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-24 09:53:16
- * @LastEditTime: 2019-10-27 18:00:37
+ * @LastEditTime: 2019-10-28 12:28:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/pages/product/category.js
@@ -82,6 +82,9 @@ class ProductCategory extends Component {
                     subCategory: category
                 })
             }
+        }else{
+            message.error(res.msg)
+            this.props.history.push('/login')
         }
     }
 

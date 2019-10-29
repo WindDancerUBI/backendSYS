@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-21 20:29:52
- * @LastEditTime: 2019-10-22 10:38:08
+ * @LastEditTime: 2019-10-28 15:38:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/server/routers/userRouter.js
@@ -35,9 +35,15 @@ Router.post('/login',(req,res) => {
         let secretOrPrivateKey="jwt";
         // 根据参数生成token值
         let token = jwt.sign(content, secretOrPrivateKey, {
-            expiresIn: 60*60*4 // 1小时过期
+            expiresIn: 60*60*12 // 12小时过期
         });
-        return res.json({code:0,data:doc,token:token,msg:'登录成功'});
+        doc.token = token;
+        UserModel(doc).save((err,doc) => {
+            if(err){
+                return res.json({code:1,msg:err});
+            }
+            return res.json({code:0,data:doc,token:token,msg:'登录成功'});
+        })
     })
 })
 
