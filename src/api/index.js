@@ -14,7 +14,7 @@ import { message } from 'antd';
 export const reqLogin = (username, password) => ajax('/user/login', {username, password}, 'POST')
 
 // 卡片分类请求接口
-export const reqCategory = (parentId) => ajax('/category/list',{parentId},'GET')
+export const reqCategory = (parentId,pageNum,pageSize) => ajax('/category/list',{parentId,pageNum,pageSize},'GET')
 
 // 添加分类
 export const reqAddCategory = (categoryName, parentId) => ajax('/category/add', {categoryName, parentId}, 'POST')

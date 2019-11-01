@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-29 11:35:43
- * @LastEditTime: 2019-10-29 12:34:43
+ * @LastEditTime: 2019-10-29 12:21:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/pages/product/manage/home.js
@@ -120,7 +120,7 @@ export default class ManageHome extends Component {
     )
 
     const extra = (
-      <Button type='primary' onClick={() => this.props.history.push('/product/manage/addupdate')}>
+      <Button type='primary' onClick={() => this.props.history.push('/product/addupdate')}>
         <Icon type='plus'/>
         添加商品
       </Button>

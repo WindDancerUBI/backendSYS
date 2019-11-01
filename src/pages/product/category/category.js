@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-24 09:53:16
- * @LastEditTime: 2019-10-28 12:28:36
+ * @LastEditTime: 2019-10-29 11:02:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/pages/product/category.js
@@ -21,7 +21,10 @@ class ProductCategory extends Component {
             loading: false,
             parentId: '0',
             parentName: '',
-            showStatus: 0
+            showStatus: 0,
+            pageSize: 5,
+            pageNum: 1,
+            total: 0
         }
     }
 
@@ -30,7 +33,8 @@ class ProductCategory extends Component {
     }
 
     componentDidMount(){
-        this.getCategory();
+        const { parentId, pageNum, pageSize} = this.state
+        this.getCategory(parentId, pageNum, pageSize);
     }
     
     // 初始化表格头部信息
@@ -64,22 +68,28 @@ class ProductCategory extends Component {
     }
 
     // 获取卡片分类列表
-    getCategory = async(parentId) => {
+    getCategory = async(parentId,pageNum,pageSize) => {
         this.setState({
             loading:true,
+            pageNum,
         })
         parentId = parentId || this.state.parentId
-        const res = await reqCategory(parentId);
+        const res = await reqCategory(parentId,pageNum,pageSize);
         this.setState({
             loading:false,
         })
         if(res.code === 0){
-            const category = res.data;
+            const result = res.data;
+            const { total,list } = result
             if(parentId === '0'){
-                this.setState({category})
+                this.setState({
+                    category:list,
+                    total
+                })
             }else{
                 this.setState({
-                    subCategory: category
+                    subCategory: list,
+                    total
                 })
             }
         }else{
@@ -113,6 +123,7 @@ class ProductCategory extends Component {
 
     // 点击确认添加分类按钮的操作
     addCategory = () => {
+        const { pageNum,pageSize } = this.state
         this.form.validateFields(async(err,values) => {
             if(!err){
                 this.setState({
@@ -129,10 +140,10 @@ class ProductCategory extends Component {
                     // 添加的分类就是当前分类列表下的分类
                     if(parentId===this.state.parentId) {
                         // 重新获取当前分类列表显示
-                        this.getCategory()
+                        this.getCategory(parentId, pageNum, pageSize)
                     } else if (parentId==='0'){ 
                         // 在二级分类列表下添加一级分类, 重新获取一级分类列表, 但不需要显示一级列表
-                        this.getCategory('0')
+                        this.getCategory('0',pageNum, pageSize)
                     }
                 }else{
                     message.error(res.msg);
@@ -142,6 +153,7 @@ class ProductCategory extends Component {
     }
 
     updateCategory = () => {
+        const { parentId,pageNum,pageSize } = this.state
         this.form.validateFields(async (err, values) => {
             if(!err) {
               // 1. 隐藏确定框
@@ -160,7 +172,7 @@ class ProductCategory extends Component {
               const res = await reqUpdateCategory({categoryId, categoryName})
               if (res.code===0) {
                 // 3. 重新显示列表
-                this.getCategory()
+                this.getCategory(parentId,pageNum,pageSize)
               }else{
                 Modal.error({
                     title: '错误',
@@ -177,7 +189,8 @@ class ProductCategory extends Component {
             parentId: category._id,
             parentName: category.name
         },() => {
-            this.getCategory();
+            const { parentId,pageNum,pageSize } = this.state
+            this.getCategory(parentId,pageNum,pageSize);
         })
     }
 
@@ -190,7 +203,7 @@ class ProductCategory extends Component {
     }
 
     render() {
-        const { parentId,parentName,loading,category,showStatus,subCategory } = this.state;
+        const { parentId,parentName,loading,category,showStatus,subCategory,pageNum,total,pageSize } = this.state;
         const title = parentId === '0'?'卡片类型':(
             <span>
                 <Button type='link' onClick={this.showCategory}>
@@ -206,6 +219,8 @@ class ProductCategory extends Component {
                 添加
             </Button>
         )
+
+
         return (
             <div className='category'>
                 <Card className='card' title={title} extra={extra} >
@@ -216,6 +231,13 @@ class ProductCategory extends Component {
                         rowKey='_id'
                         columns={this.columns}
                         dataSource={this.state.parentId === '0'?category:subCategory}
+                        pagination={{
+                            current: pageNum,
+                            total,
+                            defaultPageSize: pageSize,
+                            showQuickJumper: true,
+                            onChange: (pageNum) =>this.getCategory(parentId,pageNum,pageSize)
+                        }}
                     />
                     <Modal
                         title='添加分类'

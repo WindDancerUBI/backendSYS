@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-20 08:42:54
- * @LastEditTime: 2019-10-26 10:28:20
+ * @LastEditTime: 2019-10-29 12:42:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/pages/admin/index.js
@@ -32,14 +32,22 @@ class Admin extends Component {
         menuList.map(item => {
             if(!item.children){
                 this.RouteList.push(item);
-            }else{
+            }else if(item.children && item.childHidden){
+                this.RouteList.push({
+                    title: item.title,
+                    key: item.key,
+                    icon: item.icon,
+                    component: item.component,
+                })
+                this.getRouteList(item.children);
+            }
+            else{
                 this.getRouteList(item.children);
             }
         })
     }
 
     render() {
-        
         if(!localStorage.getItem('token')){
             return <Redirect to = '/login' />
         }
@@ -59,7 +67,7 @@ class Admin extends Component {
                             <Switch>
                                 <Redirect exact from='/' to='/home' />
                                 {this.RouteList.map(item => 
-                                    <Route path={item.key} component={item.component} />  
+                                    <Route path={item.key} component={item.component} exact/>  
                                 )}
                                 
                             </Switch>

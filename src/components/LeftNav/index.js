@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-23 10:18:26
- * @LastEditTime: 2019-10-26 11:14:06
+ * @LastEditTime: 2019-10-29 12:15:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/components/LeftNav/index.js
@@ -37,7 +37,7 @@ class LeftNav extends Component {
     // 获取左侧导航栏中的内容
     getLeftMenu(menuList){
         return menuList.map(item => {
-            if(item.children){
+            if(item.children && !item.childHidden){
                 const cItem = item.children.find(cItem => this.props.location.pathname.indexOf(cItem.key)===0)
                 if(cItem){
                     this.defaultOpenKeys = item.key;

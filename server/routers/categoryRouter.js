@@ -1,6 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2019-10-27 10:20:04
+ * @LastEditTime: 2019-10-29 10:34:49
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /backendSYS/server/routers/categoryRouter.js
+ */
+/*
+ * @Author: your name
+ * @Date: 2019-10-27 10:20:04
  * @LastEditTime: 2019-10-28 12:54:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
@@ -10,17 +18,19 @@ const express = require('express');
 const Router = express.Router();
 const CategoryModel = require('../models/category');
 const tokenCheck = require('../utils/tokenCheck')
+const pageFilter = require('../utils/pageFilter')
 
 Router.use((req,res,next) => tokenCheck(req.headers['token'],res,next))
 // 请求卡片接口
 Router.get('/list',(req,res) => {
     const parentId = req.query.parentId || '0'
+    const { pageNum,pageSize } = req.query
     CategoryModel.find({parentId},(err,doc) => {
         if(err){
             return res.json({code: 1, msg:err})
         }
         if(doc){
-            return res.json({code: 0, data: doc})
+            return res.json({code: 0, data: pageFilter(doc,pageNum,pageSize)})
         }
     })
 })

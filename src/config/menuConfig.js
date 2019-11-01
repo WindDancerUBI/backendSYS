@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-23 10:46:35
- * @LastEditTime: 2019-10-27 12:47:25
+ * @LastEditTime: 2019-10-29 12:10:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /backendSYS/src/config/menuConfig.js
@@ -15,6 +15,8 @@ import Role from "./../pages/role/index";
 import Bar from "./../pages/chart/bar";
 import Line from "./../pages/chart/line";
 import Pie from "./../pages/chart/pie";
+import ManageAddUpdate from "../pages/product/manage/addUpdate";
+import ManageDetail from "../pages/product/manage/detail";
 
 const menuList = [
   {
@@ -39,7 +41,20 @@ const menuList = [
         title: '商品管理',
         key: '/product/manage',
         icon: 'tool',
-        component: ProductManage
+        childHidden: true,
+        component: ProductManage,
+        children: [
+          {
+            title: '更改商品',
+            key: '/product/manage/addupdate',
+            component: ManageAddUpdate
+          },
+          {
+            title: '商品详情',
+            key: '/product/manage/detail',
+            component: ManageDetail
+          },
+        ]
       },
     ]
   },
